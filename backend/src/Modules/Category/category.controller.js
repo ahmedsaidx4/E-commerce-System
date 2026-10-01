@@ -1,4 +1,5 @@
 const Category = require("./category.model");
+const Product = require("../Products/product.model");
 const asyncWrapper = require("../../Middleware/errorHandler");
 const appError = require("../../utils/appError");
 const slugify = require("slugify");
@@ -7,7 +8,10 @@ const getCategories = asyncWrapper(async (req, res, next) => {
   const limit = query.limit || 3;
   const page = query.page || 1;
   const skip = (page - 1) * limit;
-  const categories = await Category.find().limit(limit).skip(skip);
+
+  const categories = await Category.find({}, { isActive: false })
+    .limit(limit)
+    .skip(skip);
   res.status(200).json({
     status: "success",
     count: categories.length,
@@ -20,6 +24,9 @@ const getSingleCategory = asyncWrapper(async (req, res, next) => {
   const category = await Category.findById(cid).exec();
   if (!category) {
     return next(new appError("Sorry, not Found this category", 404, "FAIL"));
+  }
+  if (!category.isActive) {
+    return next(new appError("Sorry, category is not Active", 404, "ERROR"));
   }
   res.status(200).json({ status: "success", data: { category } });
 });
@@ -64,11 +71,25 @@ const deleteCategory = asyncWrapper(async (req, res, next) => {
   }
   return res.status(200).json({ status: "success", data: null });
 });
-
+const deActiveCategory = asyncWrapper(async (req, res, next) => {
+  const cid = req.params.cid;
+  const category = await Category.findById(cid);
+  if (!category) {
+    return next(new appError("Sorry, not Found this category", 404, "FAIL"));
+  }
+  category.isActive = false;
+  await category.save();
+  const product = await Product.updateMany(
+    { category: cid },
+    { isActive: false },
+  );
+  res.status(200).json({ status: "success", data: null });
+});
 module.exports = {
   getCategories,
   postCategories,
   getSingleCategory,
   patchCategory,
   deleteCategory,
+  deActiveCategory,
 };

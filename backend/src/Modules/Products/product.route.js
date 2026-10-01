@@ -1,18 +1,20 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 const controller = require("./product.controller");
 
 const allowTo = require("../../Middleware/allowTo");
 const roleState = require("../../utils/roleState");
 const verifyToken = require("../../Middleware/verifyToken");
+const { productValidation } = require("./product.validation");
+const validate = require("../../Middleware/validate");
+router.route("/").get(controller.getProducts).post(
+  verifyToken,
+  allowTo(roleState.Admin),
 
-router
-  .route("/")
-  .get(controller.getProducts)
-  .post(verifyToken, allowTo(roleState.Admin), controller.postProducts);
-
-router.route("/search").get(controller.getProductsSearch);
+  validate(productValidation),
+  controller.postProducts,
+);
 
 router
   .route("/:cid")

@@ -4,7 +4,11 @@ const controller = require("./category.controller");
 const allowTo = require("../../Middleware/allowTo");
 const roleState = require("../../utils/roleState");
 const verifyToken = require("../../Middleware/verifyToken");
-
+const productRoute = require("../Products/product.route");
+router.use("/:cid/products", productRoute);
+router
+  .route("/deActive/:cid")
+  .post(verifyToken, allowTo(roleState.Admin), controller.deActiveCategory);
 router
   .route("/")
   .get(controller.getCategories)

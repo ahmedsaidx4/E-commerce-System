@@ -5,8 +5,9 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "category require"],
-      unique: [true, " category must be unique"],
+      required: [true, "product require"],
+      trim: true,
+      unique: [true, " product must be unique"],
       minLength: 3,
       maxLength: 32,
     },
