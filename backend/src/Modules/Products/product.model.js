@@ -28,8 +28,13 @@ const productSchema = new mongoose.Schema(
       required: [true, "category require"],
     },
     images: { type: String },
-    stock: { type: String },
-    sku: { type: String },
+    stock: {
+      type: Number,
+      required: true,
+    },
+    sku: {
+      type: Number,
+    },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true },

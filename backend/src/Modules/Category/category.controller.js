@@ -9,7 +9,7 @@ const getCategories = asyncWrapper(async (req, res, next) => {
   const page = query.page || 1;
   const skip = (page - 1) * limit;
 
-  const categories = await Category.find({}, { isActive: false })
+  const categories = await Category.find({ isActive: true }, {})
     .limit(limit)
     .skip(skip);
   res.status(200).json({

@@ -59,7 +59,7 @@ const getSingleProduct = asyncWrapper(async (req, res, next) => {
 });
 
 const postProducts = asyncWrapper(async (req, res, next) => {
-  const { name, description, price, category } = req.body;
+  const { name, description, price, category, stock } = req.body;
   const categoryInMongo = await Category.findById(category);
   if (!categoryInMongo) {
     return next(new appError("Sorry, category not found!", 404, "ERROR"));
@@ -73,6 +73,7 @@ const postProducts = asyncWrapper(async (req, res, next) => {
     price,
     category,
     slug: slugify(name, { lower: true }),
+    stock,
   });
   await product.save();
   res.status(201).json({ status: "success", data: { product } });

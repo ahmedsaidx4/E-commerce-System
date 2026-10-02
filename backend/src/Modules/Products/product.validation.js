@@ -6,6 +6,7 @@ const productValidation = joi.object({
   description: joi.string().required(),
   price: joi.number().required(),
   category: joi.string().required(),
+  stock: joi.number().required(),
 });
 
 module.exports = { productValidation };
