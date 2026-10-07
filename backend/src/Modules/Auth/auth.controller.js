@@ -19,7 +19,7 @@ const {
 const {
   generateAccessToken,
   generateRefreshToken,
-} = require("../../utils/generatToken");
+} = require("../../utils/generateToken");
 
 //-------------------Registration-----------------------
 

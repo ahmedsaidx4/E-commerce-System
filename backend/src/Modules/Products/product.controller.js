@@ -32,6 +32,9 @@ const getProducts = asyncWrapper(async (req, res, next) => {
       filter.price.$lte = Number(maxPrice);
     }
   }
+  // const queryObject = { ...req.query };
+  // const excludesFields = ["limit", "page", "fields", "sort"];
+  // excludesFields.forEach((fields) => delete queryObject[fields]);
   const sortBy = sort ? sort.split(",").join(" ") : "-createdAt";
   const selectedFields = fields ? fields.split(",").join(" ") : "";
   const products = await Product.find(filter, { isActive: false })

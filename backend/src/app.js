@@ -61,6 +61,7 @@ app.use("/api/v1/admins", require("./Modules/Admin/admin.route"));
 app.use("/api/v1/categories", require("./Modules/Category/category.route"));
 app.use("/api/v1/products", require("./Modules/Products/product.route"));
 app.use("/api/v1/cart", require("./Modules/Cart/cart.route"));
+app.use("/api/v1/orders", require("./Modules/Orders/order.route"));
 
 //--------------Error Handles----------------------------------
 

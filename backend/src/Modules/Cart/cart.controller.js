@@ -4,8 +4,10 @@ const asyncWrapper = require("../../Middleware/errorHandler");
 const appError = require("../../utils/appError");
 
 const getCart = asyncWrapper(async (req, res, next) => {
-  console.log(req.user.id);
-  const cart = await Cart.find({ user: req.user.id });
+  const cart = await Cart.find({ user: req.user.id }).populate(
+    "items.product",
+    "name",
+  );
   res.status(200).json({
     status: "success",
     count: cart.length,
