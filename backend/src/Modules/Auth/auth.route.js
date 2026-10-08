@@ -21,7 +21,7 @@ router.route("/login").post(validate(loginSchema), controller.login);
 router.route("/logout").post(controller.logout);
 router.route("/logout-all").post(verifyToken, controller.logoutAll);
 
-router.route("/emailVerify/:userId/:tokenVerify").post(controller.confirmEmail);
+router.route("/verify-email/:userId/:tokenVerify").get(controller.confirmEmail);
 router
   .route("/reset-password/:userId/:token")
   .post(validate(resetPasswordSchema), controller.resetPassword);

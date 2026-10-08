@@ -6,6 +6,8 @@ const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 //--------------Middlewares----------------------------------
 
 const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
@@ -14,17 +16,18 @@ const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
   .filter(Boolean);
 
 app.use(express.json({ limit: "1mb" }));
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  }),
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin(origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       }
+//       return callback(new Error("Not allowed by CORS"));
+//     },
+//     credentials: true,
+//   }),
+// );
 app.use(cookieParser());
 if (process.env.NODE_ENV !== "test") {
   app.use(morgan("tiny"));
@@ -55,6 +58,8 @@ app.get("/api/v1/health", (req, res) => {
     message: "API is running",
   });
 });
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
 app.use("/api/v1/auth", require("./Modules/Auth/auth.route"));
 app.use("/api/v1/users", require("./Modules/User/user.route"));
 app.use("/api/v1/admins", require("./Modules/Admin/admin.route"));

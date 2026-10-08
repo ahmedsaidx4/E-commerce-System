@@ -47,7 +47,8 @@ const register = asyncWrapper(async (req, res, next) => {
 
   return res.status(201).json({
     status: "success",
-    message: "Account created successfully. Please verify your email.",
+    message:
+      "Account created successfully. Please verify your email (open spam box in gmail).",
   });
 });
 
@@ -101,7 +102,8 @@ const login = asyncWrapper(async (req, res, next) => {
     }
     return res.status(401).json({
       status: "fail",
-      message: "Please verify your email and login again.",
+      message:
+        "Please verify your email and login again (open spam box in gmail).",
     });
   }
 
@@ -348,7 +350,8 @@ const forgotPassword = asyncWrapper(async (req, res, next) => {
   if (!user) {
     return res.status(200).json({
       status: "success",
-      message: "If this email exists, a reset link has been sent.",
+      message:
+        "If this email exists, a reset link has been sent (open spam box in gmail).",
     });
   }
 
@@ -359,12 +362,14 @@ const forgotPassword = asyncWrapper(async (req, res, next) => {
     await sendForgetPassword(user);
     return res.status(200).json({
       status: "success",
-      message: "If this email exists, a reset link has been sent.",
+      message:
+        "If this email exists, a reset link has been sent (open spam box in gmail).",
     });
   }
   return res.status(200).json({
     status: "success",
-    message: "If this email exists, a reset link has been sent.",
+    message:
+      "If this email exists, a reset link has been sent (open spam box in gmail).",
   });
 });
 

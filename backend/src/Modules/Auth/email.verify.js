@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
-const getClientUrl = () => process.env.CLIENT_URL || "http://localhost:5173";
+const getClientUrl = () => process.env.CLIENT_URL || "http://localhost:3000";
 
 const sendEmailVerification = async (user) => {
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
@@ -14,7 +14,7 @@ const sendEmailVerification = async (user) => {
   );
   user.emailVerificationTokenExpiresAt = expiresAt;
   await user.save();
-  const link = `${getClientUrl()}/verify-email/${user._id}/${tokenVerfiy}`;
+  const link = `${getClientUrl()}/api/v1/auth/verify-email/${user._id}/${tokenVerfiy}`;
   const nodemailerOptions = {
     from: process.env.USER_MAIL,
     to: user.email,

@@ -15,7 +15,7 @@ const getSingleOrders = asyncWrapper(async (req, res, next) => {
     user: req.user.id,
   });
   if (!order) {
-    return next(new appError("order not found", 404, "ERROR"));
+    return next(new appError("Order not found", 404, "ERROR"));
   }
   return res.status(200).json({ status: "success", data: { order } });
 });
@@ -27,7 +27,7 @@ const checkout = asyncWrapper(async (req, res, next) => {
     return next(new appError("Cart not found", 404, "FAIL"));
   }
   if (cart.items.length === 0) {
-    return next(new appError("Cart is Empty!", 400, "FAIL"));
+    return next(new appError("Cart is empty", 400, "FAIL"));
   }
   let orderItems = [];
   let subtotal = 0;
