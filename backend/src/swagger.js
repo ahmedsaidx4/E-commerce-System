@@ -324,7 +324,7 @@ const swaggerDefinition = {
         },
       }),
     },
-    "/auth/emailVerify/{userId}/{tokenVerify}": {
+    "/auth/verify-email/{userId}/{tokenVerify}": {
       post: {
         tags: ["Authentication"],
         summary: "Verify email",
