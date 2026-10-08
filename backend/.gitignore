@@ -1,7 +1,7 @@
 node_modules/
-
+backend/src/uploads/avatars/*
+backend/src/Modules/Auth/images/*
 .env
-db.js
 src-auth-origan/
 
 E_COMMERCE_API_PROJECT_SPEC.md
