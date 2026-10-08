@@ -1,10 +1,10 @@
 const dotenv = require("dotenv");
 
-dotenv.config({ path: "./src/config/.env" });
+dotenv.config();
 const app = require("./app");
 const connectDB = require("./config/db");
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
