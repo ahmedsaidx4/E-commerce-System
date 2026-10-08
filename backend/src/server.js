@@ -1,21 +1,33 @@
 const dotenv = require("dotenv");
 
-dotenv.config();
-const app = require("./app");
-const connectDB = require("./config/db");
+console.log("🚀 server.js started");
 
-const PORT = process.env.PORT || 3000;
+dotenv.config();
+
+console.log("✅ dotenv loaded");
+console.log("PORT:", process.env.PORT);
+
+const app = require("./app");
+console.log("✅ app loaded");
+
+const connectDB = require("./config/db");
+console.log("✅ db module loaded");
+
+const PORT = process.env.PORT || 4000;
 
 const startServer = async () => {
   try {
+    console.log("🔌 Connecting to database...");
+
     await connectDB();
-    app.listen(PORT, () => {
-      console.log(
-        `-------------------Server Is Ready on Port ${PORT}-------------------`,
-      );
+
+    console.log("✅ Database connected");
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error(error);
+    console.error("❌ SERVER ERROR:", error);
     process.exit(1);
   }
 };
