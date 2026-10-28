@@ -100,16 +100,16 @@ The API uses the `/api/v1` prefix. Swagger UI can be used to inspect request sch
 
 ## API Overview
 
-| Resource | Base path | Purpose |
-| --- | --- | --- |
-| Health | `/api/v1/health` | Check whether the API is running |
-| Authentication | `/api/v1/auth` | Registration, login, sessions, verification, and password flows |
-| Users | `/api/v1/users` | Current-user profile and account status |
-| Admins | `/api/v1/admins` | User administration and role management |
-| Categories | `/api/v1/categories` | Category browsing and admin management |
-| Products | `/api/v1/products` | Product browsing and admin management |
-| Cart | `/api/v1/cart` | User cart operations |
-| Orders | `/api/v1/orders` | Checkout and user order history |
+| Resource       | Base path            | Purpose                                                         |
+| -------------- | -------------------- | --------------------------------------------------------------- |
+| Health         | `/api/v1/health`     | Check whether the API is running                                |
+| Authentication | `/api/v1/auth`       | Registration, login, sessions, verification, and password flows |
+| Users          | `/api/v1/users`      | Current-user profile and account status                         |
+| Admins         | `/api/v1/admins`     | User administration and role management                         |
+| Categories     | `/api/v1/categories` | Category browsing and admin management                          |
+| Products       | `/api/v1/products`   | Product browsing and admin management                           |
+| Cart           | `/api/v1/cart`       | User cart operations                                            |
+| Orders         | `/api/v1/orders`     | Checkout and user order history                                 |
 
 ## Authentication
 
