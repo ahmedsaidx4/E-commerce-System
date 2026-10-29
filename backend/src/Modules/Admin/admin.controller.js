@@ -1,106 +1,42 @@
-const User = require("../User/user.model");
-const asyncWrapper = require("../../Middleware/errorHandler");
-const appError = require("../../utils/appError");
-const roleState = require("../../utils/roleState");
-const { sanitizeUser, sanitizeUsers } = require("../../utils/sanitizeUser");
+const AdminService = require('./admin.service')
 
-const addAdmin = asyncWrapper(async (req, res, next) => {
-  const user = await User.findById(req.params.userId).exec();
-  if (!user) {
-    return next(new appError("Sorry, User Not Found", 404, "FAIL"));
-  }
-  if (user.role == roleState.Admin) {
-    return next(new appError("The user already Admin", 200, "FAIL"));
-  }
-  user.role = roleState.Admin;
-  await user.save();
-  res.status(200).json({
-    status: "success",
-    message: "The user has been added to admin group.",
-    data: {
-      user: sanitizeUser(user),
-    },
-  });
-});
-const deleteAdmin = asyncWrapper(async (req, res, next) => {
-  const user = await User.findById(req.params.userId).exec();
-  if (!user) {
-    return next(new appError("Sorry, User Not Found", 404, "FAIL"));
-  }
-  if (toString(req.user.id) === toString(user._id)) {
-    return next(
-      new appError("can not remove you in admin group.", 400, "FAIL"),
-    );
-  }
-  if (user.role === roleState.User) {
-    return next(new appError("The user already User", 400, "FAIL"));
-  }
-  user.role = roleState.User;
-  await user.save();
-  res.status(200).json({
-    status: "success",
-    message: "The user has been added to user group.",
-    data: {
-      user: sanitizeUser(user),
-    },
-  });
-});
 
-const getAllAdmin = asyncWrapper(async (req, res, next) => {
-  const admins = await User.find({ role: roleState.Admin }).exec();
-  return res
-    .status(200)
-    .json({ status: "success", data: { admins: sanitizeUsers(admins) } });
-});
+const addAdmin = async (req, res, next) => {
+  await AdminService.addAdmin(req, res, next);
+};
+
+
+
+const deleteAdmin = async (req, res, next) => {
+  await AdminService.deleteAdmin(req,res,next)
+};
+
+
+const getAllAdmin = async (req, res, next) => {
+  await AdminService.getAllAdmin(req,res,next)
+};
 
 //-------------------------------------User   route   ------------------------
 
-const getAllUsers = asyncWrapper(async (req, res, next) => {
-  const users = await User.find({});
-  return res
-    .status(200)
-    .json({ status: "success", data: { users: sanitizeUsers(users) } });
-});
-const getSingleUsers = asyncWrapper(async (req, res, next) => {
-  const user = await User.findById(req.params.userId);
-  if (!user) {
-    return next(new appError("User not found.", 404, "FAIL"));
-  }
+const getAllUsers = async (req, res, next) => {
+ await AdminService.getAllUsers(req,res,next)
+};
 
-  return res
-    .status(200)
-    .json({ status: "success", data: { user: sanitizeUser(user) } });
-});
 
-const deleteUser = asyncWrapper(async (req, res, next) => {
-  const user = await User.findByIdAndDelete(req.params.userId);
-  if (!user) {
-    return next(new appError("User not found.", 404, "FAIL"));
-  }
-  return res
-    .status(200)
-    .json({ status: "success", message: "User deleted successfully." });
-});
+const getSingleUsers = async (req, res, next) => {
+  await AdminService.getSingleUsers(req,res,next)
+};
 
-const updateUserStatus = asyncWrapper(async (req, res, next) => {
-  const { accountStatus } = req.body;
 
-  const user = await User.findById(req.params.userId);
-  if (!user) {
-    return next(new appError("User not found.", 404, "FAIL"));
-  }
 
-  user.accountStatus = accountStatus;
-  await user.save();
+const deleteUser = async (req, res, next) => {
+  await AdminService.deleteUser(req, res, next)
+};
 
-  return res.status(200).json({
-    status: "success",
-    message: `Account ${accountStatus === "Active" ? "activated" : "deactivated"} successfully.`,
-    data: {
-      user: sanitizeUser(user),
-    },
-  });
-});
+
+const updateUserStatus = async (req, res, next) => {
+  await AdminService.updateUserStatus(req, res, next) 
+};
 
 module.exports = {
   addAdmin,
